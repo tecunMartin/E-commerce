@@ -1,0 +1,26 @@
+{
+  "name": "e-commerse",
+  "version": "1.0.0",
+  "description": "Proyecto sobre venta online(E-COMMERSE).",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "kinal",
+    "e-commerse",
+    "venta",
+    "online",
+    "martin",
+    "alech911"
+  ],
+  "author": "Alejandro Charles <tecunmartin132@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.19",
+    "nodemon": "^2.0.7",
+    "chalk": "^4.1.0"
+  }
+}
