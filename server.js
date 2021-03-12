@@ -3,6 +3,7 @@ const chalk = require('chalk');
 const bcrypt = require('bcrypt-nodejs');
 const app = require('./app');
 const modelAdmin = require('./src/model/user.model');
+const modelCategory = require('./src/model/category.model');
 
 mongoose.Promise = global.Promise;
 
@@ -24,11 +25,42 @@ mongoose.connect('mongodb://localhost:27017/e-commerce', { useNewUrlParser: true
         const newAdmin = new modelAdmin(ADMIN);
         newAdmin.save((err, adminSaved) => {
           if (err) return console.log('Error a la hora de guardar el ADMIN.');
-          !adminSaved ? console.log('No viene los datos de ADMIN') : console.log(chalk.black.bgBlueBright('ADMIN creado con exito.'));
+          if (!adminSaved) {
+            return console.log('No viene los datos de ADMIN');
+          } else {
+            console.log(chalk.black.bgBlueBright('ADMIN creado con exito.'));
+            CategoryDefault();
+          }
         });
       });
     } else {
-      return console.log(chalk.white.bgRedBright('Este usuario ya existe.'));
+      console.log(chalk.white.bgRedBright('Este ADMIN ya existe.'));
+      CategoryDefault();
     }
   });
+
+  /* Creado de categoria por defecto */
+  function CategoryDefault() {
+    modelCategory.find({ name: 'DEFAULT' }, (err, categoryFind) => {
+      if (err) return console.log('Error en al busqueda');
+
+      if (categoryFind.length === 0) {
+        const categoria = {
+          name: 'DEFAULT',
+        };
+
+        const newCategoria = new modelCategory(categoria);
+        newCategoria.save((err, categoriaGuardada) => {
+          if (err) return console.log('Error a la hora de guardar la CATEGORY.');
+          if (!categoriaGuardada) {
+            return console.log('No viene los datos de CATEGORY.');
+          } else {
+            return console.log(chalk.bgBlueBright.black('CATEGORY creado con exito.'));
+          }
+        });
+      } else {
+        return console.log(chalk.white.bgRedBright('Esta CATEGORY creada ya existe.'));
+      }
+    });
+  }
 });
