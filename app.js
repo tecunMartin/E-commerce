@@ -6,6 +6,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-/* Router(app); */
+Router(app);
 
 module.exports = app;
