@@ -43,6 +43,14 @@ async function orderProductosPorStock() {
   return await modelProduct.find().sort({ stock: 1 }).limit(3);
 }
 
+async function productosFactura(user) {
+  return await modelFactura.findOne({ user });
+}
+
+async function productosFacturaEspecifica(id) {
+  return await modelFactura.findOne({ 'compras._id': id });
+}
+
 module.exports = {
   crearFacturaCarrito,
   buscarUserFactura,
@@ -54,4 +62,6 @@ module.exports = {
   listarFacturas,
   ordenarProductos,
   orderProductosPorStock,
+  productosFactura,
+  productosFacturaEspecifica,
 };

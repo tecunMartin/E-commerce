@@ -9,6 +9,8 @@ const {
   listarFacturas,
   ordenarProductos,
   orderProductosPorStock,
+  productosFactura: listarProductosFactura,
+  productosFacturaEspecifica,
 } = require('../store/invoices.store');
 const { success, error } = require('../utils/response');
 
@@ -150,9 +152,31 @@ function faltantes(req, res) {
     });
 }
 
+function productosFactura(req, res) {
+  const { idFactura } = req.params;
+
+  listarProductosFactura(req.user.sub)
+    .then((facturaEncontrada) => {
+      if (!facturaEncontrada) {
+        return error(req, res, 'No se encuentra coleccion de facturas con ese usuario.', 404);
+      } else {
+        facturaEncontrada.compras.forEach((element) => {
+          if (element._id == idFactura) {
+            return success(req, res, { _id: element._id, product: element.product }, 200);
+          }
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return error(req, res, 'Error interno', 500);
+    });
+}
+
 module.exports = {
   crearFactura,
   visualizarFacturas,
   masVendidos,
   faltantes,
+  productosFactura,
 };
