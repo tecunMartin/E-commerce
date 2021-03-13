@@ -74,7 +74,7 @@ function eliminarCategoria(req, res) {
         return removeCategoria(req, res, idCategorias);
       } else {
         productosEncontrados.forEach((elemento) => {
-          updateCategoryDefault(elemento._id, categoriaDefault._id).then((modificado) => {
+          updateCategoryDefault(elemento._id, categoriaDefault._id).then(() => {
             removeCategoria(req, res, idCategorias);
           });
         });

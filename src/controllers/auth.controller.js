@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt-nodejs');
-const { findWithEmail, createUser, findUser } = require('../store/auth.store');
+const { createUser, findUser } = require('../store/auth.store');
 const RESPONSE = require('../utils/response');
-const model = require('../model/user.model');
 const jwt = require('../utils/jwt');
 
 async function login(req, res) {
@@ -27,34 +26,38 @@ function responderToken(req, res, password, passwordEncontrado, dataEncontrada) 
   });
 }
 
-/* async function registrar(req, res, roles) {
-  const { name, user, password } = req.body;
-  const rol = roles || 'ROL_CLIENTE';
+async function registrar(req, res, roles) {
+  const { userName, password } = req.body;
+  const rol = 'ROL_CLIENTE';
 
-  if (name && user && password) {
-    findUser(user).then((usuarioEncontrado) => {
-      if (usuarioEncontrado) {
-        return RESPONSE.error(req, res, 'Usuario ya existente.', 404);
-      } else {
-        bcrypt.hash(password, null, null, (err, passEncriptado) => {
-          const people = {
-            name,
-            user,
-            password: passEncriptado,
-            rol,
-          };
-          createUser(people)
-            .then((userCreate) => {
-              userCreate ? RESPONSE.success(req, res, userCreate, 201) : RESPONSE.error(req, res, 'No se puede crear el usuario.', 500);
-            })
-            .catch((err) => console.log(err));
-        });
-      }
-    });
+  if (userName && password) {
+    findUser(userName)
+      .then((usuarioEncontrado) => {
+        if (usuarioEncontrado) {
+          return RESPONSE.error(req, res, 'Usuario ya existente.', 404);
+        } else {
+          bcrypt.hash(password, null, null, (err, passEncriptado) => {
+            const people = {
+              userName,
+              password: passEncriptado,
+              rol,
+            };
+            createUser(people)
+              .then((userCreate) => {
+                userCreate ? RESPONSE.success(req, res, userCreate, 201) : RESPONSE.error(req, res, 'No se puede crear el usuario.', 500);
+              })
+              .catch((err) => console.log(err));
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        return RESPONSE.error(req, res, 'Error interno', 500);
+      });
   }
-} */
+}
 
 module.exports = {
   login,
-  /* registrar */
+  registrar,
 };
