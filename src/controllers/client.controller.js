@@ -24,7 +24,7 @@ function BreakException(req, res, message) {
 function obtenerCarrito(req, res) {
   obtenerCarritoCompleto(req.user.sub)
     .then((allCarrito) => {
-      allCarrito ? success(req, res, allCarrito, 200) : error(req, res, 'No se puede visualizar el carrito.', 500);
+      allCarrito ? success(req, res, allCarrito, 200) : success(req, res, 'Aun no has agregado nada en el carrito.', 200);
     })
     .catch((err) => {
       console.log(err);
