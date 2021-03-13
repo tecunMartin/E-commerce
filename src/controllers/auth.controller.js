@@ -4,9 +4,9 @@ const RESPONSE = require('../utils/response');
 const jwt = require('../utils/jwt');
 
 async function login(req, res) {
-  const { user, password } = req.body;
+  const { userName, password } = req.body;
 
-  await findUser(user)
+  await findUser(userName)
     .then((Encontrado) => {
       if (Encontrado) {
         responderToken(req, res, password, Encontrado.password, Encontrado);

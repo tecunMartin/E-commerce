@@ -6,7 +6,7 @@ const PRODUCTOS = new schema({
   name: String,
   stock: Number,
   sold: Number,
-  price: SchemaTypes.Decimal128,
+  price: { type: SchemaTypes.Decimal128, get: (v) => new mongoose.Types.Decimal128((+v.toString()).toFixed(2)) },
   Category: { type: schema.ObjectId, ref: 'caterorys' },
 });
 
